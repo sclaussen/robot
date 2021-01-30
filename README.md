@@ -1,33 +1,53 @@
+# Overview
+
+Our development environment consisted of:
+- MacOS
+- Python 3.x
+- Dynamixel AX12-A Actuators
+- The U2D2, AX/MS Power Hub, and 12V/5Amp Power Supply to connect the MacOS to the AX12-A for testing
+- Raspberry Pi
+
+
+
 # Materials
 
-- [$44.90 Robotis Dynamixel AX-12 Robot Actuator](https://www.trossenrobotics.com/dynamixel-ax-12-robot-actuator.aspx)
-- [$49.90 Robotis Dynamixel U2D2](https://www.trossenrobotics.com/dynamixel-u2d2.aspx)
-- [$ 7.95 Robotis 6 Port AX/MX Power Hub](https://www.trossenrobotics.com/6-port-ax-mx-power-hub)
-- [$19.95 Power Supply 12V - 5A (2.1mm Jack)](https://www.trossenrobotics.com/p/power-supply-12vdc-5a.aspx)
-- [$24.95 Robotis PhantonX Parallel AX-12 Gripper](https://www.trossenrobotics.com/p/phantomx-parallel-ax12-gripper.aspx)
+- [Robotis Dynamixel AX-12 Robot Actuator ($44.90)](https://www.trossenrobotics.com/dynamixel-ax-12-robot-actuator.aspx)
+- [Robotis Dynamixel U2D2 ($49.90)](https://www.trossenrobotics.com/dynamixel-u2d2.aspx)
+- [Robotis 6 Port AX/MX Power Hub ($7.95)](https://www.trossenrobotics.com/6-port-ax-mx-power-hub)
+- [Power Supply 12V - 5A (2.1mm Jack) ($19.95)](https://www.trossenrobotics.com/p/power-supply-12vdc-5a.aspx)
+- [Robotis PhantonX Parallel AX-12 Gripper ($24.95)](https://www.trossenrobotics.com/p/phantomx-parallel-ax12-gripper.aspx)
 
 
 
-# Configuration
+# MacOS Setup
 
 - Configure the U2D2
   - https://emanual.robotis.com/docs/en/parts/interface/u2d2
+  - After installation determine the USB serial tty device that
+    represents the U2D2 using `ls /dev/tty.usbserial*`
 
-- Dynamix SDK
-  - cd ~/src
-  - git clone https://github.com/ROBOTIS-GIT/DynamixelSDK.git
-  - cd ~/src/DynamixelSDK/python
-  - python3 setup.py install
+- Install the Dynamixel SDK
+```
+cd ~/src
+git clone https://github.com/ROBOTIS-GIT/DynamixelSDK.git
+cd src/python
+python3 setup.py install
+```
 
-- Run Tests
-  - cd ~/src/DynamixelSDK/python/tests/protocol1_0
-  - ls /dev/tty.usbserial*
-  - Edit ping.py
+- Run the Dynamixel SDK Python Tests
+```
+cd ~/src/DynamixelSDK/python/tests/protocol1_0
+```
+  - Run ping.py to verify successful setup and communication with the AX-12A
+    - Change DEVICENAME to proper TTY (on MacOS, /dev/tty.usbserial*)
+    - Change BAUDRATE to 1000000
+  - Run read_write.py to verify successful manipulation of the AX-12A
+    - See the [AX-12a control table](https://emanual.robotis.com/docs/en/dxl/ax/ax-12a/#control-table-data-address) to update the following constants:
+      - Change ADDR_MX_TORQUE_ENABLE to 24
+      - Change ADDR_MX_GOAL_POSITION to 116
+      - Change ADDR_MX_PRESENT_POSITION to 132
     - Change DEVICENAME to proper TTY
-    - Changed BAUDRATE to 1000000
-  - Edit read_write.py
-    - Change DEVICENAME to proper TTY
-    - Changed BAUDRATE to 1000000
+    - Change BAUDRATE to 1000000
 
 
 
